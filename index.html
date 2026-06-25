@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>HardenCheck · your personalized device checklist · C-LAB</title>
+<meta name="theme-color" content="#0b0f12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0f12'/%3E%3Cpath d='M16 4 7 7.5v6.4C7 20 16 27 16 27s9-7 9-13.1V7.5L16 4Z' fill='none' stroke='%235be3c3' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M12 16l3 3 5-6' fill='none' stroke='%235be3c3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="node.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-node="hardencheck">
+
+<div class="bg" aria-hidden="true">
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <div class="bg-scan"></div>
+  <div class="bg-motes"></div>
+  <div class="bg-sweep"></div>
+</div>
+
+<span class="br tl"></span><span class="br tr"></span><span class="br bl"></span><span class="br brr"></span>
+
+<header class="rail">
+  <div class="group">
+    <span class="brand"><span class="mark" data-ico="shield"></span> ARGUS</span>
+    <span class="crumb hide-narrow"><span class="sep">/</span> <a href="https://c-lab.tools/" rel="noopener">C-LAB</a> <span class="sep">/</span> <span class="sig">HARDENCHECK</span></span>
+  </div>
+  <div class="group">
+    <span class="hide-narrow" data-i18n="rail_mode">CHECKLIST · LOCAL</span>
+    <span class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-lang="es">ES</button>
+      <button type="button" data-lang="en" class="active">EN</button>
+      <button type="button" data-lang="de">DE</button>
+    </span>
+    <span><span id="clock">--:--:--</span> UTC</span>
+    <span class="status-pill"><span class="live-dot"></span> LIVE</span>
+  </div>
+</header>
+
+<main>
+  <!-- ===================== IDENTITY (left) ===================== -->
+  <section class="identity">
+    <p class="eyebrow"><span class="ln"></span><span data-ico="broadcast"></span> <span data-i18n="eyebrow">C-LAB · Tool · Device hardening</span></p>
+    <h1 class="wordmark product"><span data-decode>Harden</span><span class="accent" data-decode>Check</span></h1>
+    <p class="role" data-i18n="role">ACCOUNTS · UPDATES · ENCRYPTION · NETWORK · MESSAGING · TARGETED</p>
+    <h2 class="title" data-i18n="tagline">Tell it about your device. Get a checklist made for it.</h2>
+    <p class="desc" data-i18n="lead">HardenCheck asks a few questions about your device and threat level, then builds a personalized, plain-language security checklist you can work through and tick off. It runs entirely in your browser. Your answers never leave your device: no server, no telemetry, and it works offline.</p>
+
+    <div class="cta-row">
+      <a class="btn bare" href="https://c-lab.tools/" rel="noopener"><span data-ico="shield"></span> <span data-i18n="cta_about">About C-LAB</span></a>
+      <a class="btn bare" href="mailto:luis@argusdn.org"><span data-ico="mail"></span> <span data-i18n="cta_contact">Contact</span></a>
+    </div>
+    <p class="cta-note" data-i18n="privacy">Runs 100% in your browser · 0 requests</p>
+
+    <div class="features">
+      <div class="feature"><span class="fnum mono">01</span><span class="fi" data-ico="people"></span><h3 data-i18n="feat1_t">Personalized</h3><p data-i18n="feat1_d">The checklist reflects your OS, your role and your real risk, not a generic list.</p></div>
+      <div class="feature"><span class="fnum mono">02</span><span class="fi" data-ico="cloudOff"></span><h3 data-i18n="feat2_t">On-device</h3><p data-i18n="feat2_d">Every answer stays in your browser; nothing is sent anywhere.</p></div>
+      <div class="feature"><span class="fnum mono">03</span><span class="fi" data-ico="verify"></span><h3 data-i18n="feat3_t">Plain steps</h3><p data-i18n="feat3_d">Each task says why it matters and exactly how to do it on your system.</p></div>
+      <div class="feature"><span class="fnum mono">04</span><span class="fi" data-ico="download"></span><h3 data-i18n="feat4_t">Track & export</h3><p data-i18n="feat4_d">Tick items off, save progress, and export your checklist to keep working.</p></div>
+    </div>
+  </section>
+
+  <!-- ===================== OPS = the working tool (right) ===================== -->
+  <section class="ops" aria-label="HardenCheck tool">
+    <div class="ops-head">
+      <span class="ops-label"><span data-ico="terminal"></span> <span data-i18n="ops_label">Device security checklist</span></span>
+      <span class="ops-stat" data-i18n="privacy">Runs 100% in your browser · 0 requests</span>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><span class="dot"></span> HardenCheck <span class="right">LOCAL · NO UPLOAD</span></div>
+      <div class="panel-body" id="ops-body">
+        <!-- profile form / checklist injected by app.js -->
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="rail">
+  <nav class="netnav" aria-label="Node network">
+    <a class="node" href="https://argusdn.org/" rel="noopener"><span class="dotmark"></span> ARGUS</a>
+    <a class="node" href="https://c-lab.tools/" rel="noopener"><span class="dotmark"></span> C-LAB</a>
+    <span class="node active"><span class="dotmark"></span> HARDENCHECK</span>
+    <a class="node live" href="https://apipass.c-lab.tools/" rel="noopener"><span class="dotmark"></span> APIPASS</a>
+  </nav>
+  <div class="info">
+    <a href="mailto:luis@argusdn.org">luis@argusdn.org</a>
+    <span class="hide-narrow">© 2026 · ARGUS</span>
+  </div>
+</footer>
+
+<script src="icons.js"></script>
+<script src="node.js"></script>
+<script src="tasks.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
