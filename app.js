@@ -187,10 +187,6 @@
     opsBody.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function hasSavedData() {
-    try { return !!(localStorage.getItem(LS.profile) || localStorage.getItem(LS.done)); } catch (e) { return false; }
-  }
-
   function deriveProfile(p) {
     const mobile = (p.os === 'ios' || p.os === 'android');
     return Object.assign({}, p, {
@@ -270,7 +266,7 @@
       <div class="form-actions">
         <button class="btn primary btn-block" id="gen-btn" ${d.os && d.risk ? '' : 'disabled'}><span data-ico="shield"></span> ${esc(t.generate)}</button>
         <p class="form-hint">${esc(t.hint)}</p>
-        ${hasSavedData() ? `<button class="btn bare btn-wipe btn-block" id="wipe-btn"><span data-ico="cloudOff"></span> ${esc(S[lang].rep.wipe)}</button>` : ''}
+        <button class="btn bare btn-wipe btn-block" id="wipe-btn"><span data-ico="cloudOff"></span> ${esc(S[lang].rep.wipe)}</button>
       </div>`;
 
     if (window.ArgusIcons) window.ArgusIcons.hydrate(opsBody);
