@@ -106,6 +106,10 @@ main { align-items: start; }
 .rep-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .rep-actions .btn { font-size: 12px; padding: 8px 12px; }
 
+/* wipe = clear all saved data (privacy). Danger-tinted, distinct from reset. */
+.btn.btn-wipe { border-color: var(--p-critical); color: var(--p-critical); }
+.btn.btn-wipe:hover { border-color: var(--p-critical); color: var(--p-critical); background: oklch(0.68 0.19 25 / 0.12); transform: translateY(-2px); }
+
 .rep-alldone {
   margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--accent);
   border: 1px dashed var(--accent); border-radius: 4px; padding: 10px 13px; background: var(--accent-soft);

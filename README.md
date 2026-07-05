@@ -32,6 +32,11 @@ Runs **100% in the browser**. CSP `connect-src 'none'` — there is no server an
 no network call of any kind. The profile and checkmark progress are stored only
 in `localStorage` on the operator's own device. Nothing is ever transmitted.
 
+A **Clear & wipe** button (on both the form and the checklist) removes the saved
+profile and all progress from the browser in one click, so reopening the tool
+leaves no trace of which device was being worked on. It is distinct from *Reset
+progress*, which only clears the checkmarks and keeps the profile.
+
 ## Files
 
 ```

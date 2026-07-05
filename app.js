@@ -47,11 +47,13 @@
         title: 'Your checklist', for: 'For',
         progress: 'done', items: 'items',
         edit: 'Edit profile', md: 'Export Markdown', json: 'Export JSON', print: 'Print / PDF', reset: 'Reset progress',
+        wipe: 'Clear & wipe',
         why: 'Why it matters', how: 'How to do it', refs: 'Learn more',
         prio: { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low' },
         alldone: 'Every item is checked off. Re-run periodically, and after any device or account change.',
         disclaimer: 'This is a guidance checklist based on what you reported. It does not scan your device or verify anything for you. For active checks, see the C-LAB device tools.',
         confirm_reset: 'Clear all checkmarks for this checklist?',
+        confirm_wipe: 'Clear the saved profile and all progress from this browser? This leaves no trace of which device you were working on.',
         empty: 'No tasks matched. Try editing your profile.',
       },
     },
@@ -90,11 +92,13 @@
         title: 'Tu lista', for: 'Para',
         progress: 'hechas', items: 'tareas',
         edit: 'Editar perfil', md: 'Exportar Markdown', json: 'Exportar JSON', print: 'Imprimir / PDF', reset: 'Reiniciar avance',
+        wipe: 'Borrar todo',
         why: 'Por qué importa', how: 'Cómo hacerlo', refs: 'Aprender más',
         prio: { critical: 'Crítico', high: 'Alto', medium: 'Medio', low: 'Bajo' },
         alldone: 'Todas las tareas están marcadas. Repite periódicamente, y tras cualquier cambio de dispositivo o cuenta.',
         disclaimer: 'Esta es una lista de orientación basada en lo que reportaste. No escanea tu dispositivo ni verifica nada por ti. Para comprobaciones activas, usa las herramientas de dispositivo de C-LAB.',
         confirm_reset: '¿Borrar todas las marcas de esta lista?',
+        confirm_wipe: '¿Borrar el perfil guardado y todo el avance de este navegador? No queda ningún rastro del dispositivo en el que estabas trabajando.',
         empty: 'Ninguna tarea coincidió. Prueba a editar tu perfil.',
       },
     },
@@ -133,11 +137,13 @@
         title: 'Deine Checkliste', for: 'Für',
         progress: 'erledigt', items: 'Aufgaben',
         edit: 'Profil bearbeiten', md: 'Markdown exportieren', json: 'JSON exportieren', print: 'Drucken / PDF', reset: 'Fortschritt zurücksetzen',
+        wipe: 'Alles löschen',
         why: 'Warum es wichtig ist', how: 'So geht es', refs: 'Mehr erfahren',
         prio: { critical: 'Kritisch', high: 'Hoch', medium: 'Mittel', low: 'Niedrig' },
         alldone: 'Alle Punkte sind abgehakt. Wiederhole das regelmäßig und nach jeder Geräte- oder Kontoänderung.',
         disclaimer: 'Dies ist eine Orientierungs-Checkliste auf Basis deiner Angaben. Sie scannt dein Gerät nicht und verifiziert nichts für dich. Für aktive Prüfungen nutze die C-LAB-Gerätewerkzeuge.',
         confirm_reset: 'Alle Häkchen dieser Checkliste löschen?',
+        confirm_wipe: 'Das gespeicherte Profil und den gesamten Fortschritt aus diesem Browser löschen? Es bleibt keine Spur davon, an welchem Gerät du gearbeitet hast.',
         empty: 'Keine Aufgaben passten. Bearbeite dein Profil.',
       },
     },
@@ -169,6 +175,21 @@
   function saveProfile(p) { try { localStorage.setItem(LS.profile, JSON.stringify(p)); } catch (e) {} }
   function loadDone() { try { return new Set(JSON.parse(localStorage.getItem(LS.done)) || []); } catch (e) { return new Set(); } }
   function saveDone() { try { localStorage.setItem(LS.done, JSON.stringify(Array.from(done))); } catch (e) {} }
+
+  // Wipe every trace of what device was worked on: the saved profile and all
+  // progress leave the browser, and the UI returns to a blank form. Language
+  // preference is kept (not device-identifying). Confirmed first.
+  function wipe() {
+    if (!window.confirm(S[lang].rep.confirm_wipe)) return;
+    try { localStorage.removeItem(LS.profile); localStorage.removeItem(LS.done); } catch (e) {}
+    profile = null; done = new Set(); draft = {};
+    renderForm();
+    opsBody.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function hasSavedData() {
+    try { return !!(localStorage.getItem(LS.profile) || localStorage.getItem(LS.done)); } catch (e) { return false; }
+  }
 
   function deriveProfile(p) {
     const mobile = (p.os === 'ios' || p.os === 'android');
@@ -249,6 +270,7 @@
       <div class="form-actions">
         <button class="btn primary btn-block" id="gen-btn" ${d.os && d.risk ? '' : 'disabled'}><span data-ico="shield"></span> ${esc(t.generate)}</button>
         <p class="form-hint">${esc(t.hint)}</p>
+        ${hasSavedData() ? `<button class="btn bare btn-wipe btn-block" id="wipe-btn"><span data-ico="cloudOff"></span> ${esc(S[lang].rep.wipe)}</button>` : ''}
       </div>`;
 
     if (window.ArgusIcons) window.ArgusIcons.hydrate(opsBody);
@@ -266,6 +288,8 @@
       refreshGen();
     });
     opsBody.querySelector('#gen-btn').addEventListener('click', generate);
+    const wipeBtn = opsBody.querySelector('#wipe-btn');
+    if (wipeBtn) wipeBtn.addEventListener('click', wipe);
   }
 
   function refreshGen() {
@@ -351,6 +375,7 @@
         <button class="btn bare" id="json-btn"><span data-ico="download"></span> ${esc(t.json)}</button>
         <button class="btn bare" id="print-btn"><span data-ico="document"></span> ${esc(t.print)}</button>
         <button class="btn bare" id="reset-btn"><span data-ico="crosshair"></span> ${esc(t.reset)}</button>
+        <button class="btn bare btn-wipe" id="wipe-btn"><span data-ico="cloudOff"></span> ${esc(t.wipe)}</button>
       </div>
       <p class="rep-alldone ${pct === 100 ? '' : 'hidden'}" id="alldone">${esc(t.alldone)}</p>`;
 
@@ -413,6 +438,7 @@
       if (!window.confirm(t.confirm_reset)) return;
       tasks.forEach((x) => done.delete(x.id)); saveDone(); renderChecklist();
     });
+    opsBody.querySelector('#wipe-btn').addEventListener('click', wipe);
   }
 
   function updateProgress(tasks, t) {
